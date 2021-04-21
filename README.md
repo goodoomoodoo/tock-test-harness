@@ -8,15 +8,26 @@ This is a development repository for Tock OS test runner and harness.
 
 1. Install Ubuntu Server on Raspberry Pi.
     * Follow the guide [here](https://ubuntu.com/tutorials/how-to-install-ubuntu-on-your-raspberry-pi#1-overview) until step 5. We do not need desktop environment.
-2. Follow Tock OS [Getting Started](https://github.com/goodoomoodoo/tock/blob/master/doc/Getting_Started.md) Guide.
+2. Hook up Action Runner of the Tock Repo to the Raspberry Pi.
+    * Go to \'Settings\' and go to \'Actions\' down the list on the left
+    * Under \'Self-hosted runners\' click **Add runner**
+    * Follow the steps to set up action runner on Raspberry Pi
+3. Install the [Requirements](https://github.com/tock/tock/blob/master/doc/Getting_Started.md#requirements) here.
+4. Install JLinkExe
+```bash
+$ wget --post-data 'accept_license_agreement=accepted&non_emb_ctr=confirmed&submit=Download+software' https://www.segger.com/downloads/jlink/JLink_Linux_arm64.tgz
+$ tar xvf JLink_Linux_arm64.tgz
+$ sudo cp 99-jlink.rules /etc/udev/rules.d/
+$ sudo reboot
+```
 
 ## Troubleshoot
 
 ### WiFi not connected after first boot
 
-1. Configure network plan
-```sudo vi /etc/netplan/50-cloud-init.yaml```
-```
+1. Configure network plan ```sudo vi /etc/netplan/50-cloud-init.yaml```
+
+```yaml
 # This file is generated from information provided by the datasource. Changes
 # to it will not persist across an instance reboot. To disable cloud-init's
 # network configuration capabilities, write a file
