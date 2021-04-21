@@ -17,8 +17,9 @@ This is a development repository for Tock OS test runner and harness.
 ```bash
 $ wget --post-data 'accept_license_agreement=accepted&non_emb_ctr=confirmed&submit=Download+software' https://www.segger.com/downloads/jlink/JLink_Linux_arm64.tgz
 $ tar xvf JLink_Linux_arm64.tgz
-$ sudo cp 99-jlink.rules /etc/udev/rules.d/
-$ sudo reboot
+$ sudo cp JLink_Linux_V700a_arm64/99-jlink.rules /etc/udev/rules.d/ # Depends on JLink version
+ 
+# Add the Jlink directory to the path in .profile or .bashrc
 ```
 
 ## Troubleshoot
