@@ -50,3 +50,14 @@ network:
 ```
 2. Generate and apply new network plan
 ```sudo netplan generate; sudo netplan apply```
+
+
+3. To run on your local-host (instead of Github)
+
+add "self-hosted" to runs-on:
+
+```
+jobs:
+  build:
+    runs-on: self-hosted
+ ```
