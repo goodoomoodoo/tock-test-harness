@@ -23,6 +23,15 @@ $ sudo cp JLink_Linux_V700a_arm64/99-jlink.rules /etc/udev/rules.d/ # Depends on
 ```
 
 ## Troubleshoot
+### To run on your local-host (instead of Github)
+
+add "self-hosted" to runs-on:
+
+```
+jobs:
+  build:
+    runs-on: self-hosted
+ ```
 
 ### WiFi not connected after first boot
 
@@ -52,12 +61,4 @@ network:
 ```sudo netplan generate; sudo netplan apply```
 
 
-3. To run on your local-host (instead of Github)
 
-add "self-hosted" to runs-on:
-
-```
-jobs:
-  build:
-    runs-on: self-hosted
- ```
