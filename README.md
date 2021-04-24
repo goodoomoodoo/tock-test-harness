@@ -29,11 +29,11 @@ cd ~; git clone https://github.com/goodoomoodoo/tock-test-harness.git
 ## Troubleshoot
 ### To run on your local-host (instead of Github)
 
-add "self-hosted" to runs-on:
+Make sure to add "self-hosted" as a label in runs-on for the job:
 
 ```
 jobs:
-  build:
+  "job name":
     runs-on: self-hosted
  ```
 
@@ -64,5 +64,17 @@ network:
 2. Generate and apply new network plan
 ```sudo netplan generate; sudo netplan apply```
 
+### Action runner: **command not found**
 
+If you experience issue with the command not being found, but you are very sure that you have installed the corresponding software. Try to uninstall the runner and reinstall it.
 
+```bash
+# 1. Uninstall Action Runner Server
+$ cd ~/actions-runner
+$ sudo ./svc.sh stop
+$ sudo ./svc.sh uninstall
+$ ./config.sh remove
+
+# 2. Reinstall Action Runner Server
+# Follow the guide in Getting Started.
+```
