@@ -24,6 +24,15 @@ $ sudo cp JLink_Linux_V700a_arm64/99-jlink.rules /etc/udev/rules.d/ # Depends on
 5. Checkout test harness in home directory ```cd ~; git clone https://github.com/goodoomoodoo/tock-test-harness.git```
 
 ## Troubleshoot
+### To run on your local-host (instead of Github)
+
+add "self-hosted" to runs-on:
+
+```
+jobs:
+  build:
+    runs-on: self-hosted
+ ```
 
 ### WiFi not connected after first boot
 
@@ -51,3 +60,6 @@ network:
 ```
 2. Generate and apply new network plan
 ```sudo netplan generate; sudo netplan apply```
+
+
+
