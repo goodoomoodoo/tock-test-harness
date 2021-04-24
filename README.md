@@ -78,3 +78,4 @@ $ ./config.sh remove
 # 2. Reinstall Action Runner Server
 # Follow the guide in Getting Started.
 ```
+**Note**: Possible reason to this issue is that the server environment and path varaible cannot be update after it has started. Thus, it requires a reconfiguration to included the updated path and environment variables.
