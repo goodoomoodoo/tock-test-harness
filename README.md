@@ -21,7 +21,10 @@ $ sudo cp JLink_Linux_V700a_arm64/99-jlink.rules /etc/udev/rules.d/ # Depends on
  
 # Add the Jlink directory to the path in .profile or .bashrc
 ```
-5. Checkout test harness in home directory ```cd ~; git clone https://github.com/goodoomoodoo/tock-test-harness.git```
+5. Checkout test harness in home directory 
+```bash
+cd ~; git clone https://github.com/goodoomoodoo/tock-test-harness.git
+```
 
 ## Troubleshoot
 ### To run on your local-host (instead of Github)
