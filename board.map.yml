@@ -1,0 +1,5 @@
+# Map the board model to the directory
+nrf52840dk:
+  brand: nordic
+  model: nrf52840dk
+  series: nrf52dk
