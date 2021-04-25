@@ -1,0 +1,6 @@
+scripts: 
+        run: python3 ~/tock-test-harness/sample_test.py
+env:
+        board: nrf52840dk
+        app: 
+         - blink
