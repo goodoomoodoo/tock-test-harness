@@ -11,6 +11,10 @@ except ImportError:
 with open(f"{Path.home()}/tock-test-harness/test.config.yml", 'r') as config_yml:
     TEST_CONFIG = load(config_yml, Loader=Loader)
 
+# Cannot run script
+if 'scripts' not in TEST_CONFIG:
+    raise KeyError("'scripts' does not exists in test config, cannot start test") 
+
 # Run top level script
 if 'prerun' in TEST_CONFIG['scripts']:
     os.system(TEST_CONFIG['scripts']['prerun'])
