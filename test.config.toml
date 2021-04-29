@@ -1,0 +1,24 @@
+# Test configuration file to modify test environment and settings
+title = "Test Configuration Sample"
+
+[scripts] 
+    [scripts.install]
+    # if you want to run a proprietary installation, please define "run"
+    # i.e. run = "command /path/to/script/"
+    # Note: default install script will be run if scripts.install is omitted
+    run = "python3 ~/tock-test-harness/flash.py" # Default install script
+
+    [scripts.test]
+    # if you want to run a proprietary test, please define "run"
+    # i.e. run = "command /path/to/script"
+    # Note: default test script will be run if scripts. test is omitted
+    run = "echo \"hello world\""
+
+[env]
+board = "nrf52840dk"
+
+# If scripts.test is set to default, you could modify the run from here
+[test]
+
+# List the application(s) that will be installed for tests
+app = ["blink"]
