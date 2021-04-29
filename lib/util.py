@@ -9,8 +9,10 @@ def get_board_info(in_dict, board_map):
     board_map - Mapping between board model and board info
     """
     if check_board(in_dict):
-        BOARD_MODEL = in_dict['board']
-        return board_map[BOARD_MODEL]
+        BOARD_MODEL = in_dict['env']['board']
+
+        if check_board_mapping(BOARD_MODEL, board_map):
+            return board_map['boards'][BOARD_MODEL]
 
     return None
 
@@ -20,4 +22,13 @@ def check_board(in_dict):
     Arguments:
     in_dict - Input dictionary
     """
-    return 'board' in in_dict
+    return 'env' in in_dict and 'board' in in_dict['env']
+
+def check_board_mapping(board_model, board_map):
+    """ Check if the board model exists in the board mapping
+
+    Arguments:
+    board_model - Board model name
+    board_map - Mapping between board model and board info
+    """
+    return 'boards' in board_map and board_model in board_map['boards']
