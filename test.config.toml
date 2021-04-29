@@ -1,4 +1,6 @@
 # Test configuration file to modify test environment and settings
+# There will be a file like this in EACH board folder.
+
 title = "Test Configuration Sample"
 
 [scripts] 
@@ -12,10 +14,18 @@ title = "Test Configuration Sample"
     # if you want to run a proprietary test, please define "run"
     # i.e. run = "command /path/to/script"
     # Note: default test script will be run if scripts. test is omitted
+    # TODO: Refine this for if the person writing the test isn't necessarily
+    # ther person with access to the RPi file system.
     run = "echo \"hello world\""
 
 [env]
 board = "nrf52840dk"
+path = "./boards/nordic/nrf52840dk" # Path to the board dir in tock repo
+series = "nrf52dk" # Series ID used for tockloader
+mapping = [
+    # ["Pin number on RPi", "Pin ID on board"]
+    ["22", "P0 13"]
+]
 
 # If scripts.test is set to default, you could modify the run from here
 [test]
