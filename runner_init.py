@@ -1,30 +1,30 @@
-import os
-import toml
-from pathlib import Path
+import argparse
+import sys
+from lib.Runner import Runner
 
-# Parse configuration
-with open(f"{Path.home()}/tock-test-harness/test.config.toml", 'r') as config_toml:
-    TEST_CONFIG = toml.load(config_toml)
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-b', '--build',
+        help='Compile Tock OS',
+        action='store_true',
+        dest='build')
+    parser.add_argument('-i', '--install',
+        help='Flash Tock OS onto target board',
+        action='store_true',
+        dest='install')
+    parser.add_argument('-t', '--test',
+        help='Run test workflow',
+        action='store_true',
+        dest='test')
 
-# Cannot run script
-if 'scripts' not in TEST_CONFIG:
-    raise KeyError("'scripts' does not exists in test config, cannot start test") 
+    # Get args as dict
+    args = vars(parser.parse_args())
 
-SCRIPT_CONFIG = TEST_CONFIG['scripts']
+    if not any(args.values()):
+        parser.print_help()
+        sys.exit(1)
 
-# Run top level install script
-if 'install' in SCRIPT_CONFIG:
-    SCRIPT_INSTALL_CONFIG = SCRIPT_CONFIG['install']
+    Runner(**args).run()
 
-    if 'prerun' in SCRIPT_INSTALL_CONFIG:
-        SCRIPT_INSTALL_CONFIG['prerun'].replace('~', str(Path.home()))
-        os.system(SCRIPT_INSTALL_CONFIG['prerun'])
-    
-    if 'run' in SCRIPT_INSTALL_CONFIG:
-        print("Running")
-        SCRIPT_INSTALL_CONFIG['run'].replace('~', str(Path.home()))
-        os.system(SCRIPT_INSTALL_CONFIG['run'])
-    
-    if 'postrun' in SCRIPT_INSTALL_CONFIG:
-        SCRIPT_INSTALL_CONFIG['postrun'].replace('~', str(Path.home()))
-        os.system(SCRIPT_INSTALL_CONFIG['postrun'])
+if __name__ == '__main__':
+    main()
