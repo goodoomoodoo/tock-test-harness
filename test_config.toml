@@ -1,9 +1,0 @@
-title = "Test Configuration Sample"
-
-[env]
-board = "nrf52840dk"
-path = "~/home"
-harness_id = "1"
-
-[test]
-app = [ "blink", "gpio",]

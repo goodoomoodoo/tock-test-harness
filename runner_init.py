@@ -4,18 +4,16 @@ from lib.Runner import Runner
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument('-b', '--build',
-        help='Compile Tock OS',
-        action='store_true',
-        dest='build')
-    parser.add_argument('-i', '--install',
-        help='Flash Tock OS onto target board',
-        action='store_true',
+    parser.add_argument(
+        '-b', '--build',
+        help='Compile Tock OS', action='store_true', dest='build')
+    parser.add_argument(
+        '-i', '--install',
+        help='Flash Tock OS onto target board', action='store_true',
         dest='install')
-    parser.add_argument('-t', '--test',
-        help='Run test workflow',
-        action='store_true',
-        dest='test')
+    parser.add_argument(
+        '-t', '--test',
+        help='Run test workflow', action='store_true', dest='test')
 
     # Get args as dict
     args = vars(parser.parse_args())
