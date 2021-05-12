@@ -26,6 +26,7 @@ cd ~; git clone --recurse-submodules -j8 https://github.com/goodoomoodoo/tock-te
 5. Install gpiozero if not yet installed. (It should come with the image)
 ```bash
 $ sudo pip3 install gpiozero
+$ sudo apt install python3-gpiozero
 $ sudo chown root:$USER /dev/gpiomem
 $ sudo chmod g+rw /dev/gpiomem
 ```
