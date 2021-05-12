@@ -1,0 +1,29 @@
+# This file is to be pasted to the actual TockOS repo
+name: Rust
+
+on:
+  push:
+    branches:
+      - master
+      # - hardware_ci
+  pull_request:
+    branches: 
+      - master
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  # build:
+  #   runs-on: ubuntu-latest
+  #   steps: 
+  #     - id: printingtest
+  #       run: echo This is testing 1
+
+  # build2:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - id: printingtestfortest2
+  #       run: echo This is test2
+  
+
