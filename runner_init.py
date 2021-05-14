@@ -127,7 +127,7 @@ KNOWN_BOARDS = {
                                         $_TARGETNAME configure -work-area-phys 0x20000000 -work-area-size $WORKAREASIZE -work-area-backup 0; \
                                         flash bank $_CHIPNAME.flash nrf51 0x00000000 0 1 1 $_TARGETNAME;'},
 }
-COMMUNICATION_PROCTOCOL = ['Other', 'jlink', 'openocd']
+COMMUNICATION_PROCTOCOLS = ['Other', 'jlink', 'openocd']
 TOCK_BOARD_PATH = f'{Path.home()}/actions-runner/_work/tock/tock/boards/'
 TOCK_HARNESS_PATH = f'{Path.home()}/tock-test-harness/'
 title = ''
@@ -169,6 +169,10 @@ while True:
     if board.isdigit() and (0 <= int(board) <= len(KNOWN_BOARDS)):
         if board == '0':
             board = input('Input board name: ')
+
+            # Break before the KNOWN_BOARD check, if the string is not empty
+            if board != '':
+                break
         else:
             board = list(KNOWN_BOARDS.keys())[int(board) - 1]
     
@@ -181,7 +185,36 @@ while True:
 # Separate next prompt with the previous prompt
 print('\n')
 
-print("Input your board directory relative to Tock boards directory, ",
+# Enter communication protocol
+print('Input communication protocol for the board.\n')
+
+for idx, comm_proc_name in enumerate(COMMUNICATION_PROCTOCOLS):
+    print(f'[{idx}] {comm_proc_name}')
+
+print() # Line break from options
+
+while True:
+    comm_proc = input('Enter communication protocol: ')
+
+    if comm_proc.isdigit() and (0 <= int(comm_proc) <= len(COMMUNICATION_PROCTOCOLS)):
+        if comm_proc == '0':
+            comm_proc = '' # Placeholder, not sure what to do with this
+            break
+        else:
+            comm_proc = COMMUNICATION_PROCTOCOLS[int(comm_proc)]
+    
+    if comm_proc in COMMUNICATION_PROCTOCOLS:
+        print(f'\n{comm_proc} has been selected.')
+        break
+    else:
+        print(f'\nCommunication protocol {comm_proc} is invalid.')
+
+
+# Separate next prompt with the previous prompt
+print('\n')
+
+# Enter path to the board
+print("Input board directory relative to Tock boards directory, ",
       "(e.g. [tock/boards]/nordic/nrf52840dk) ")
 
 while True:
@@ -200,6 +233,8 @@ while True:
 
 # Separate next prompt with the previous prompt
 print('\n')
+
+# Enter harness ID
 print('Input harness ID to specify the runner action, (default 0)')
 
 harness_id = input('Enter harness ID: ')
@@ -207,7 +242,7 @@ harness_id = input('Enter harness ID: ')
 if harness_id == '':
     harness_id = '0'
 
-print(f'Selected harness ID{harness_id}')
+print(f'Selected harness ID {harness_id}')
 
 # Deserialize and dump to toml file
 print('\nCreating Toml Configuration File...\n')
@@ -220,6 +255,7 @@ with open(TOCK_HARNESS_PATH + 'config.toml', 'w') as output_toml_file:
             'board': board,
             'path': board_path,
             'harness_id': harness_id,
+            'communication_protocol': comm_proc
         }
     }
 
