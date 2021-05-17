@@ -20,7 +20,9 @@ $ sudo cp JLink_Linux_V700a_arm64/99-jlink.rules /etc/udev/rules.d/ # Depends on
 
 4. Checkout test harness in home directory 
 ```bash
-cd ~; git clone --recurse-submodules -j8 https://github.com/goodoomoodoo/tock-test-harness.git
+cd ~; git clone https://github.com/goodoomoodoo/tock-test-harness.git
+cd ~; git clone https://github.com/goodoomoodoo/libtock-c.git
+
 ```
 
 5. Install gpiozero if not yet installed. (It should come with the image)
