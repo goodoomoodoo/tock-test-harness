@@ -1,3 +1,7 @@
+body {
+  max-width: 900px;
+  margin: auto !important;
+}
 ul.nav {
   list-style-type: none;
   margin: 0;
@@ -26,6 +30,10 @@ ul.nav > li a:hover:not(.active) {
   background-color: #04AA6D;
 }
 
-img {
+img.avi {
   width: 100px;
+}
+
+img#workflow {
+  max-width: 100%;
 }
