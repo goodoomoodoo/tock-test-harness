@@ -33,6 +33,12 @@ $ sudo chown root:$USER /dev/gpiomem
 $ sudo chmod g+rw /dev/gpiomem
 ```
 
+5. Install linux library
+```bash
+# Install bluetooth library
+$ sudo apt-get install libbluetooth-dev
+```
+
 6. Hook up Action Runner of the Tock Repo to the Raspberry Pi.
     * Go to \'Settings\' and go to \'Actions\' down the list on the left
     * Under \'Self-hosted runners\' click **Add runner**
