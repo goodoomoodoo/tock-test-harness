@@ -35,8 +35,13 @@ $ sudo chmod g+rw /dev/gpiomem
 
 5. Install linux library
 ```bash
+$ sudo apt install gcc-arm-none-eabi
+$ sudo apt install bluez bluez-tools
+$ sudo apt install pi-bluetooth
 # Install bluetooth library
 $ sudo apt-get install libbluetooth-dev
+# Remember to reboot and to initialize the services
+$ reboot
 ```
 
 6. Hook up Action Runner of the Tock Repo to the Raspberry Pi.
