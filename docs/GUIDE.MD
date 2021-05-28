@@ -3,7 +3,7 @@
 1. Install Ubuntu Server on Raspberry Pi.
     * Follow the guide [here](https://ubuntu.com/tutorials/how-to-install-ubuntu-on-your-raspberry-pi#1-overview) until step 5. We do not need desktop environment.
 2. Install the [Requirements](https://github.com/tock/tock/blob/master/doc/Getting_Started.md#requirements) here.
-3. Install JLinkExe
+3. Download and install JLinkExe
 ```bash
 $ wget --post-data 'accept_license_agreement=accepted&non_emb_ctr=confirmed&submit=Download+software' https://www.segger.com/downloads/jlink/JLink_Linux_arm64.tgz
 $ tar xvf JLink_Linux_arm64.tgz
