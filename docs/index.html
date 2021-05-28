@@ -27,15 +27,14 @@
     and then reports back the outcome of these tests to the Github "Actions" tab.</p>
 
   <h3>Motivation</h3>
-  <p>Tock is a open source software, and many people contribute features to make
+  <p>Because Tock is an open source software, many people contribute features to make
     it a better place. However, developers usually only carry out tests on
-    differnt boards before the release every year, and this makes debugging very
+    different boards before the release every year, and this makes debugging very
     hard. Issues and bugs could potentially appear in any added feature since
-    last release. The goal of HW CI Test is to test the feature on all supported
-    boards as soon as the developers add them, so by the end of the release
-    cycle, the developers wouldn't need to go through an extensive trials and
-    errors to figure out which added features in the past year has caused the
-    failure.
+    the prior release. The goal of our hardware CI test is to test features on all supported
+    boards as soon as the developers add them. Therefore, at the end of the release
+    cycle, the developers won't need to go through an extensive trial and
+    error process to figure out which added features in the past year have caused failures.
   </p>
 
   <h3>Workflow Diagram</h3>
@@ -44,7 +43,7 @@
     <li>Code is pushed or accepted via a pull request.</li>
     <li>Github servers send a message to each Raspberry Pi.</li>
     <li>The Raspberry Pi starts by getting the most recent copy of Tock OS.</li>
-    <li>The Raspberry Pi start its tests.</li>
+    <li>The Raspberry Pi starts its tests.</li>
     <li>The Pi reads its local config file for information on what board is connected to it.</li>
     <li>This information is parsed.</li>
     <li>The Pi builds the version of Tock respective to its own embedded target board.</li>
@@ -52,7 +51,7 @@
     <li>The Pi retrieves the newest version of the tests and builds them.</li>
     <li>The Pi installs and runs the test apps serially.</li>
     <li>The Action Runner listens to standard out where the Pi logs the output.</li>
-    <li>Finally, the action runner sends the output and return success to Github where it is displayed in the
+    <li>Finally, the action runner sends the output and return code to Github where it is displayed in the
       "Actions" tab.</li>
   </ol>
   <h3><a href="overview.pdf">Project Overview</a></h3>
