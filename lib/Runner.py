@@ -74,30 +74,28 @@ class Runner:
         """Build the Tock OS with the given configuration"""
         self.log.info('Initiating compilation.')
         os.chdir(self.path)
-        exit_code = os.system('make')
-        return exit_code
+        return os.system('make') >> 8 # exit_code
 
     def tock_preinstall(self):
         """Check prerun sequence, run if exists."""
         if self.install_script and 'prerun' in self.install_script:
             # Execute prerun specification
             self.log.info('Initiating prerun specification.')
-            exit_code = os.system(self.install_script['prerun'])
-            return exit_code
+            return os.system(self.install_script['prerun']) >> 8 # exit_code
         else:
             self.log.info('No pre install script.')
-            return 0
+            return 0 # exit_code
 
     def tock_postinstall(self):
         """Check prerun sequence, run if exists."""
         if self.install_script and 'postrun' in self.install_script:
             # Execute postrun specification
             self.log.info('Initiating postrun specification.')
-            exit_code = os.system(self.install_script['postrun'])
+            exit_code = os.system(self.install_script['postrun']) >> 8
             return exit_code
         else:
             self.log.info('No post install script.')
-            return 0
+            return 0 # exit_code
 
     def tock_install(self):
         """Flash Tock OS bin to board with the given configuration
@@ -112,15 +110,18 @@ class Runner:
         self.log.info('Initiating installation.')
         
         if self.install_script and 'run' in self.install_script:
-            if exit_code := os.system(self.install_script['run']) != 0:
+            if exit_code := os.system(self.install_script['run']) >> 8 != 0:
                 return exit_code
         else:
             if exit_code := os.system('make install') >> 8 != 0:
                 return exit_code
 
-        self.tock_postinstall()
+        if exit_code := self.tock_postinstall() != 0:
+            return exit_code
 
         self.log.info('Installtion completed.')
+
+        return 0 # exit code
 
     def app_build(self, apps):
         """Lookup the APPs listed in configuration in libtock-c and compile APPs
@@ -129,8 +130,10 @@ class Runner:
         for app in apps:
             if os.path.exists(CI_TEST_DIR + app):
                 os.chdir(CI_TEST_DIR + app)
-                os.system('make')
+                if exit_code := os.system('make') >> 8 != 0:
+                    return exit_code
 
+        return exit_code
 
     def app_install(self, apps):
         """Lookup the APPs listed in configuration in libtock-c and install to 
@@ -146,10 +149,17 @@ class Runner:
                        f"--{self.comm_proc} " +
                        f'{CI_TEST_DIR}/{app}/build/{app}.tab')
                 print('\n', CMD, '\n')
-                os.system(CMD)
+                if exit_code := os.system(CMD) >> 8 != 0:
+                    return exit_code
             else:
-                os.system((f'tockloader install --board {self.board} ' + 
-                           f'{CI_TEST_DIR}/{app}/build/{app}.tab'))
+                # exit_code
+                exit_code = os.system(('tockloader install --board' + 
+                            f'{self.board} ' + 
+                            f'{CI_TEST_DIR}/{app}/build/{app}.tab')) >> 8
+                if exit_code != 0:
+                    return exit_code
+
+        return exit_code
 
     def app_test(self, apps):
         """Lookup the APPs listed in configuration in libtock-c and install to 
@@ -160,32 +170,41 @@ class Runner:
         """
         self.log.info('Testing APPs... \n')
         for app in apps:
-            os.system((f'python3 {CI_TEST_DIR}/{app}/test.py ' +
-                       f'{TEST_MOD_MAP[self.board]}'))
+            # exit_code
+            exit_code = os.system((f'python3 {CI_TEST_DIR}/{app}/test.py ' +
+                                    f'{TEST_MOD_MAP[self.board]}')) >> 8
+
+            if exit_code != 0:
+                return exit_code
+
+        return exit_code
 
     def tock_pretest(self):
         """Check prerun sequence, run if exists."""
         if self.test_script and 'prerun' in self.test_script:
             # Execute prerun specification
             self.log.info('Initiating prerun specification.')
-            os.system(self.test_script['prerun'])
+            return os.system(self.test_script['prerun']) >> 8 # exit_code
         else:
             self.log.info('No pre test script.')
+            return 0 # exit_code
 
     def tock_posttest(self):
         """Check prerun sequence, run if exists."""
         if self.test_script and 'postrun' in self.test_script:
             # Execute postrun specification
             self.log.info('Initiating postrun specification.')
-            os.system(self.install_script['postrun'])
+            return os.system(self.install_script['postrun']) >> 8 # exit_code
         else:
             self.log.info('No post test script.')
+            return 0 # exit_code
 
     def tock_test(self):
         """Test workflow"""
         self.log.info('Initiating test workflow. \n')
 
-        self.tock_pretest()
+        if exit_code := self.tock_pretest() != 0:
+            return exit_code
 
         # Unpack test configuration and APPs installation
         if self.test_config != None:
@@ -196,22 +215,26 @@ class Runner:
                 # Harness specifier for all harnesses
                 if harness_token == 'all' or harness_token == self.harness_id:
                     apps = self.test_config[harness_token]['app']
-                    self.app_build(apps)
-                    self.app_install(apps)
-                    self.app_test(apps)
+                    if exit_code := self.app_build(apps) != 0:
+                        return exit_code
+                    if exit_code := self.app_install(apps) != 0:
+                        return exit_code
+                    if exit_code := self.app_test(apps) != 0:
+                        return exit_code
 
-        self.tock_posttest()
+        if exit_code := self.tock_posttest() != 0:
+            return exit_code
 
         self.log.info('Test workflow complete.')
-
+        return 0 # exit_code
 
     def run(self):
         """Top level run"""
         if self.args['build']:
-            self.tock_build()
+            return self.tock_build()
 
         if self.args['install']:
             return self.tock_install()
 
         if self.args['test']:
-            self.tock_test()
+            return self.tock_test()
