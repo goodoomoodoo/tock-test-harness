@@ -10,6 +10,8 @@ LIBTOCK_C_DIR = f'{Path.home()}/libtock-c/'
 CI_TEST_DIR = f'{LIBTOCK_C_DIR}/examples/ci-tests/'
 CONFIG_FILE = f'{Path.home()}/tock-test-harness/config.toml'
 BOARD_CONFIG_FILE = 'test.config.toml'
+
+# This dictionary maps the board to the universal test
 TEST_MOD_MAP = {
     'nrf52dk': 'Nrf52840Test'
 }
@@ -72,25 +74,30 @@ class Runner:
         """Build the Tock OS with the given configuration"""
         self.log.info('Initiating compilation.')
         os.chdir(self.path)
-        os.system('make')
+        exit_code = os.system('make')
+        return exit_code
 
     def tock_preinstall(self):
         """Check prerun sequence, run if exists."""
         if self.install_script and 'prerun' in self.install_script:
             # Execute prerun specification
             self.log.info('Initiating prerun specification.')
-            os.system(self.install_script['prerun'])
+            exit_code = os.system(self.install_script['prerun'])
+            return exit_code
         else:
             self.log.info('No pre install script.')
+            return 0
 
     def tock_postinstall(self):
         """Check prerun sequence, run if exists."""
         if self.install_script and 'postrun' in self.install_script:
             # Execute postrun specification
             self.log.info('Initiating postrun specification.')
-            os.system(self.install_script['postrun'])
+            exit_code = os.system(self.install_script['postrun'])
+            return exit_code
         else:
             self.log.info('No post install script.')
+            return 0
 
     def tock_install(self):
         """Flash Tock OS bin to board with the given configuration
@@ -99,14 +106,17 @@ class Runner:
               run the default installation, which is just 'make install'.
         """
         os.chdir(self.path)
-        self.tock_preinstall()
+        if exit_code := self.tock_preinstall() != 0:
+            return exit_code
 
         self.log.info('Initiating installation.')
         
         if self.install_script and 'run' in self.install_script:
-            os.system(self.install_script['run'])
+            if exit_code := os.system(self.install_script['run']) != 0:
+                return exit_code
         else:
-            os.system('make install')
+            if exit_code := os.system('make install') >> 8 != 0:
+                return exit_code
 
         self.tock_postinstall()
 
@@ -201,7 +211,7 @@ class Runner:
             self.tock_build()
 
         if self.args['install']:
-            self.tock_install()
+            return self.tock_install()
 
         if self.args['test']:
             self.tock_test()

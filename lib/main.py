@@ -22,7 +22,7 @@ def main():
         parser.print_help()
         sys.exit(1)
 
-    Runner(**args).run()
+    return Runner(**args).run()
 
 if __name__ == '__main__':
-    main()
+    sys.exit(main())
