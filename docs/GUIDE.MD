@@ -3,7 +3,7 @@
 1. Install Ubuntu Server on Raspberry Pi.
     * Follow the guide [here](https://ubuntu.com/tutorials/how-to-install-ubuntu-on-your-raspberry-pi#1-overview) until step 5. We do not need desktop environment.
 2. Install the [Requirements](https://github.com/tock/tock/blob/master/doc/Getting_Started.md#requirements) here.
-3. Install JLinkExe
+3. Download and install JLinkExe
 ```bash
 $ wget --post-data 'accept_license_agreement=accepted&non_emb_ctr=confirmed&submit=Download+software' https://www.segger.com/downloads/jlink/JLink_Linux_arm64.tgz
 $ tar xvf JLink_Linux_arm64.tgz
@@ -11,29 +11,33 @@ $ sudo cp JLink_Linux_V700a_arm64/99-jlink.rules /etc/udev/rules.d/ # Depends on
  
 # Add the Jlink directory to the path in .profile or .bashrc
 ```
-
-4. Checkout test harness in home directory 
+4. Install pip3, if not yet installed
+```bash
+sudo apt install python-pip3
+```
+5. Checkout test harness in home directory 
 ```bash
 cd ~; git clone https://github.com/goodoomoodoo/tock-test-harness.git
 cd ~; git clone https://github.com/goodoomoodoo/libtock-c.git
-
 ```
-
-5. Install gpiozero if not yet installed. (It should come with the image)
+6. Install gpiozero if not yet installed. (It should come with the image)
 ```bash
-$ sudo pip3 install gpiozero
 $ sudo apt install python3-gpiozero
 $ sudo chown root:$USER /dev/gpiomem
 $ sudo chmod g+rw /dev/gpiomem
 ```
-
-5. Install linux library
+7. Install linux library
 ```bash
+$ sudo apt install arm-none-eabi
 # Install bluetooth library
-$ sudo apt-get install libbluetooth-dev
+$ sudo apt-get install bluez bluez-tools pi-bluetooth 
+# !IMPORTANT! Remember to reboot after installation
 ```
-
-6. Hook up Action Runner of the Tock Repo to the Raspberry Pi.
+8. Install python3 libraries
+```bash
+$ cd ~/tock-test-harness; pip3 install -r requirements.txt
+```
+9. Hook up Action Runner of the Tock Repo to the Raspberry Pi.
     * Go to \'Settings\' and go to \'Actions\' down the list on the left
     * Under \'Self-hosted runners\' click **Add runner**
     * Follow the steps to set up action runner on Raspberry Pi
