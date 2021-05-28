@@ -11,7 +11,7 @@ CI_TEST_DIR = f'{LIBTOCK_C_DIR}/examples/ci-tests/'
 CONFIG_FILE = f'{Path.home()}/tock-test-harness/config.toml'
 BOARD_CONFIG_FILE = 'test.config.toml'
 TEST_MOD_MAP = {
-    'nrf52dk': 'Nrf52840GpioTest'
+    'nrf52dk': 'Nrf52840Test'
 }
 
 class Runner:
