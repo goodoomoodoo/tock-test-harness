@@ -42,6 +42,12 @@ $ cd ~/tock-test-harness; pip3 install -r requirements.txt
     * Under \'Self-hosted runners\' click **Add runner**
     * Follow the steps to set up action runner on Raspberry Pi
 
+10. Add path to JLink to ```.path``` in Action Runner
+```bash
+$ cd ~/actions-runner; vi .path
+# Add the path
+```
+
 ## Troubleshoot
 ### To run on your local-host (instead of Github)
 
