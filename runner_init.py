@@ -1,6 +1,7 @@
 import os
 import toml
 from pathlib import Path
+from git import Repo
 
 # KNOWN_BOARDS is variable listing all known board model extracted from 
 # tockloader, which can be found in tockloader repository 
@@ -142,6 +143,14 @@ DESCRIPTION = ("Initialized configuration setup guide to create "
                "For more information, please visit "
                "https://github.com/goodoomoodoo/tock-test-harness\n")
 print(DESCRIPTION)
+
+# Pre setup: clone tock
+if not os.path.isdir(f'{Path.home()}/actions-runner/_work'):
+    print("Cloning Tock OS...")
+    os.makedirs(f'{Path.home()}/actions-runner/_work/tock/tock')
+
+    # Checkout Tock Repo
+    Repo.clone_from('https://github.com/goodoomoodoo/tock.git', f'{Path.home()}/actions-runner/_work/tock/tock')
 
 # Input configuration name
 title = input('Name the configuration: ')
