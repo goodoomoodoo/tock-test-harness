@@ -48,6 +48,13 @@ $ cd ~/actions-runner; vi .path
 # Add the path
 ```
 
+11. Complete setup by configuring the harness
+```bash
+# Go to tock-test-harness directory you've checked out earlier
+$ cd ~/tock-test-harness
+# Run configuration wizard
+$ python3 runner_init.py
+
 ## Troubleshoot
 ### To run on your local-host (instead of Github)
 
