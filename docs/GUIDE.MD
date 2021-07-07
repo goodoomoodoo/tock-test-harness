@@ -54,6 +54,13 @@ $ cd ~/actions-runner; vi .path
 $ cd ~/tock-test-harness
 # Run configuration wizard
 $ python3 runner_init.py
+```
+12. Clone ci-tests from libtock-c Tock C Userland
+```bash
+# Clone only ci-tests branch
+$ cd ~
+$ git clone --single-branch --branch ci-tests https://github.com/goodoomoodoo/libtock-c.git
+```
 
 ## Troubleshoot
 ### To run on your local-host (instead of Github)
